@@ -16,7 +16,7 @@ class MusicsController < ApplicationController
 
   # GET /musics/new
   def new
-    #@music = Music.new
+    @music = Music.new
   end
 
   # GET /musics/1/edit

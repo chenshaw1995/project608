@@ -10,20 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171001043727) do
+ActiveRecord::Schema.define(version: 20171006012008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "authors", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "commentons", force: :cascade do |t|
+    t.integer "music_id"
+    t.integer "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comments", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.integer "music_id"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["music_id"], name: "index_comments_on_music_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -46,8 +56,10 @@ ActiveRecord::Schema.define(version: 20171001043727) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "comments", "musics"
-  add_foreign_key "comments", "users"
+  add_foreign_key "authors", "comments"
+  add_foreign_key "authors", "users"
+  add_foreign_key "commentons", "comments"
+  add_foreign_key "commentons", "musics"
   add_foreign_key "likes", "musics", name: "likes_music_id_fkey"
   add_foreign_key "likes", "users", column: "person_id", name: "likes_person_id_fkey"
 end

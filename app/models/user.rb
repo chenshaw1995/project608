@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     has_many :likes
     has_many :musics, through: :likes
-    has_many :comments
-    has_many :musics, through: :comments
+    has_many :authors
+    has_many :comments, through: :authors
 end

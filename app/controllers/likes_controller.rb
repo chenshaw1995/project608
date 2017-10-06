@@ -17,6 +17,9 @@ class LikesController < ApplicationController
   # GET /likes/new
   def new
     @like = Like.new
+    #params[:musicid]=2
+   # params[:person_id]=2
+    #redirect_to action:"create", music_id:2, person_id:2
   end
 
   # GET /likes/1/edit
@@ -25,13 +28,17 @@ class LikesController < ApplicationController
 
   # POST /likes
   # POST /likes.json
-  def create
+  def creat
+   # @like = Like.create!(like_params)
+   # flash[:notice] = "#{@params[:person]} Likes #{@params[:music]}"
+    
+   # redirect_to controller:'musics',action:'index'
     @like = Like.new(like_params)
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to @like, notice: 'Like was successfully created.' }
-        format.json { render :show, status: :created, location: @like }
+        format.html { redirect_to controller:'musics',action:'index', notice: 'Like was successfully created.' }
+       format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
         format.json { render json: @like.errors, status: :unprocessable_entity }
@@ -71,6 +78,6 @@ class LikesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def like_params
-      params.require(:like).permit(:song, :person)
+      params.require(:like).permit(:music_id, :person_id)
     end
 end
