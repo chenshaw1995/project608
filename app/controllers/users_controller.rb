@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, except:[:new, :create, :edit]#, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+ # , except:[:new, :create, :edit]#,
   #after_action :set_user
   #before_action :set_current_user, :except=>'/login'
 
@@ -13,7 +14,7 @@ public
   # GET /users/1
   # GET /users/1.json
   def show
-    @user=User.find(params[:id]) 
+    
   end
 
   # GET /users/new
@@ -23,6 +24,7 @@ public
 
   # GET /users/1/edit
   def edit
+    
   end
 
   # POST /users
@@ -65,15 +67,16 @@ public
     end
   end
 
+      #session[:id]=@current_user
+      #@user=User.find(params[:id]) 
 
+  private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @current_user=session[:id]
-      @current_user=User.find(params[:id]) unless params[:id]==nil
-      session[:id]=@current_user
-      #@user=User.find(params[:id]) 
+      @user=User.find(params[:id]) 
+      
     end
-  private
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :email, :age)
