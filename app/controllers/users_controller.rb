@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:edit, :update,:index]
+  before_action :correct_user,   only: [:edit, :update]
+  #before_action :thelikes, only: [:show]
  # , except:[:new, :create, :edit]#,
   #after_action :set_user
   #before_action :set_current_user, :except=>'/login'
@@ -8,13 +11,14 @@ public
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+     @users = User.paginate(page: params[:page])
+   #@users = User.all
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    
+    #@userlikes = :thelikes
   end
 
   # GET /users/new
@@ -31,16 +35,13 @@ public
   # POST /users.json
   def create
     @user = User.new(user_params)
-
-    respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+        log_in(@user)
+          flash[:success] = "User #{@user.name} was successfully created"
+        redirect_to @user
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+         render :new 
       end
-    end
   end
 
   # PATCH/PUT /users/1
@@ -48,7 +49,7 @@ public
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to user_path(@user), notice: 'User was successfully updated.' }
+        format.html { redirect_to user_path(@user), notice: 'Successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -80,5 +81,19 @@ public
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :email, :age)
+    end
+    
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+    
+    # Confirms the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
     end
 end

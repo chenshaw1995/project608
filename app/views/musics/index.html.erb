@@ -1,5 +1,5 @@
 <% provide(:title, "Music") %>
-<% provide(:user_id, session[:user_id]) %>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,7 +8,9 @@
   <body>
     <p id="notice"><%= notice %></p>
     <h1>Musics</h1>
-    <div> your_userid:<%= yield(:user_id)%> </div>
+    
+<%= will_paginate %>
+
     <table>
   <thead>
     <tr>
@@ -20,19 +22,24 @@
 
   <tbody>
     <% @musics.each do |music| %>
+ 
       <tr>
         <td><%= music.name %></td>
         <td><%= music.artist %></td>
         <td><%= link_to 'Show', music %></td>
-        <td><%#= link_to 'Edit', edit_music_path(music) %></td>
-        <td><%#= link_to 'Destroy', music, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to "like", controller:'likes', action:'new', musicid:music.id, personid:2%></td>
-        <td><%= link_to "comments", controller:'comments', action:'new'%></td>
+        
+        <td><%= link_to "like",controller:'likes', action:'new', id:music.id%></td>
+        
+        <td><%= link_to "More about #{music.name}", comments_path, id:music.id%></td>
       </tr>
+     
     <% end %>
+ 
   </tbody>
+  
 </table>
 
+<%= will_paginate %>
 <br>
 
 <%#= link_to 'New Music', new_music_path %>

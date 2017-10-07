@@ -1,11 +1,19 @@
 class MusicsController < ApplicationController
+  include SessionsHelper
   before_action :set_music, only: [:show, :edit]#, :update, :destroy]
 
   # GET /musics
   # GET /musics.json
   public
   def index
-    @musics = Music.all
+    
+if(params[:like])
+ @like= Like.new(music_id:params[:like], user_id:current_user[:id])
+  redirect_to like_path(@like)
+end
+    @musics = Music.paginate(page: params[:page])
+
+    #@musics = Music.all
     #@user_id=session[:user_id]
   end
 

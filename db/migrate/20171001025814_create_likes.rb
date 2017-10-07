@@ -1,14 +1,11 @@
 class CreateLikes < ActiveRecord::Migration[5.1]
   def change
     create_table :likes do |t|
-      t.integer :music_id
-      t.integer :user_id
+      t.references :user, foreign_key: true
+      t.references :music, foreign_key: true
       t.timestamps
     end
     
-    add_index :likes, :music_id
-    add_foreign_key :likes, :musics
-    add_index :likes, :user_id
-    add_foreign_key :likes, :users
+    add_index :likes, [:music_id,:user_id]
   end
 end

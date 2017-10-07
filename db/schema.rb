@@ -16,29 +16,43 @@ ActiveRecord::Schema.define(version: 20171006012008) do
   enable_extension "plpgsql"
 
   create_table "authors", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "comment_id"
+    t.bigint "user_id"
+    t.bigint "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_authors_on_comment_id"
+    t.index ["user_id"], name: "index_authors_on_user_id"
   end
 
   create_table "commentons", force: :cascade do |t|
-    t.integer "music_id"
-    t.integer "comment_id"
+    t.bigint "music_id"
+    t.bigint "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_commentons_on_comment_id"
+    t.index ["music_id"], name: "index_commentons_on_music_id"
   end
 
   create_table "comments", force: :cascade do |t|
     t.string "title"
     t.text "body"
+    t.bigint "user_id"
+    t.bigint "music_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["music_id", "user_id"], name: "index_comments_on_music_id_and_user_id"
+    t.index ["music_id"], name: "index_comments_on_music_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer "music_id"
-    t.integer "person_id"
+    t.bigint "user_id"
+    t.bigint "music_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["music_id", "user_id"], name: "index_likes_on_music_id_and_user_id"
+    t.index ["music_id"], name: "index_likes_on_music_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "musics", force: :cascade do |t|
@@ -60,6 +74,8 @@ ActiveRecord::Schema.define(version: 20171006012008) do
   add_foreign_key "authors", "users"
   add_foreign_key "commentons", "comments"
   add_foreign_key "commentons", "musics"
-  add_foreign_key "likes", "musics", name: "likes_music_id_fkey"
-  add_foreign_key "likes", "users", column: "person_id", name: "likes_person_id_fkey"
+  add_foreign_key "comments", "musics"
+  add_foreign_key "comments", "users"
+  add_foreign_key "likes", "musics"
+  add_foreign_key "likes", "users"
 end

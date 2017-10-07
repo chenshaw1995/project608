@@ -1,49 +1,54 @@
 class LikesController < ApplicationController
-  before_action :set_like, only: [:show, :edit, :update, :destroy]
+  include SessionsHelper
+  before_action :set_like, only: [:edit, :update, :destroy]
+private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_like
+      @like = Like.find(params[:id])
+    end
 
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def like_params
+      params.require(:like).permit(:music_id, :user_id)
+    end
+public
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.all
+    @likes = Like.where(user_id: current_user[:id])#.ids#.all#find_by ##
+    
   end
 
   # GET /likes/1
   # GET /likes/1.json
   def show
-    #@music_id=params[:music_id]
+    
     @like = Like.find(params[:id])
+    redirect_to root_url#musics_path#(@like.music_id)
   end
 
   # GET /likes/new
   def new
     @like = Like.new
-    #params[:musicid]=2
-   # params[:person_id]=2
-    #redirect_to action:"create", music_id:2, person_id:2
   end
 
   # GET /likes/1/edit
   def edit
+    
   end
 
-  # POST /likes
+  # POST /likes,
   # POST /likes.json
-  def creat
-   # @like = Like.create!(like_params)
-   # flash[:notice] = "#{@params[:person]} Likes #{@params[:music]}"
-    
-   # redirect_to controller:'musics',action:'index'
+  def create
+  
     @like = Like.new(like_params)
-
-    respond_to do |format|
       if @like.save
-        format.html { redirect_to controller:'musics',action:'index', notice: 'Like was successfully created.' }
-       format.json { render :show, status: :created, location: @like }
+        flash[:notice] = "Like was successfully created"
+        redirect_to current_user
       else
-        format.html { render :new }
-        format.json { render json: @like.errors, status: :unprocessable_entity }
+        render :index
       end
-    end
+
   end
 
   # PATCH/PUT /likes/1
@@ -70,14 +75,5 @@ class LikesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_like
-      @like = Like.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def like_params
-      params.require(:like).permit(:music_id, :person_id)
-    end
+  
 end

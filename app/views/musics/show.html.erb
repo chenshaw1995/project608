@@ -9,6 +9,6 @@
   <strong>Artist:</strong>
   <%= @music.artist %>
 </p>
-
+<%=link_to 'comments', new_comment_path%>|
 <%= link_to 'Edit', edit_music_path(@music) %> |
 <%= link_to 'Back', musics_path %>

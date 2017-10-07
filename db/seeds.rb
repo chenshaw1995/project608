@@ -5,6 +5,32 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+User.create!(name:  "a User",
+             email: "example@rails.com",
+             age: 133
+             )
+
+99.times do |n|
+  name  = Faker::Name.name
+  email = "example-#{n+1}@rails.com"
+  age = n+1
+  User.create!(name:  name,
+               email: email,
+               age: age)
+end
+
+=begin
+1000.times do |n|
+    name = Faker::Music.name
+    artist  = Faker::Name.name
+  
+  User.create!(name:  name,
+               artist: artist)
+end
+=end
+#=begin
 musics=[{:name => 'Aladdin', :artist => 'iG'},
     	  {:name => 'The Terminator', :artist => 'wR'},
     	  {:name => 'When Harry Met Sally', :artist => 'R'},
@@ -1079,3 +1105,5 @@ musics=[{:name => 'Aladdin', :artist => 'iG'},
 musics.each do |music|
   Music.create!(music)
 end
+
+#=end

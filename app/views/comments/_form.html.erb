@@ -21,6 +21,17 @@
     <%= form.text_area :body, id: :comment_body %>
   </div>
 
+  <div class="field">
+    <%= form.label :music_id %>
+    <%= form.text_field :music_id, id: :comment_music %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= current_user[:id]%>
+    <%= form.text_field :user_id ,id: :comment_user %>
+  </div>
+  
   <div class="actions">
     <%= form.submit %>
   </div>

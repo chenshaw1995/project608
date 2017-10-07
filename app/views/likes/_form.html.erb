@@ -12,13 +12,14 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :song %>
-    <%= form.text_field :song, id: :like_song %>
+    <%= form.label :music_id %>
+    <%= form.text_field :music_id, id: :like_music %>
   </div>
 
   <div class="field">
-    <%= form.label :person %>
-    <%= form.text_field :person, id: :like_person %>
+    <%= form.label :user_id %>
+    <%= current_user[:id]%>
+    <%= form.text_field :user_id, id: :like_person %>
   </div>
 
   <div class="actions">

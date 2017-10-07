@@ -1,10 +1,18 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
-
+before_action :logged_in? 
+ include SessionsHelper
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    if(params[:music_id]) then
+    @ids=Comment.where(music_id:params[:music_id]).ids
+    else 
+     @ids=Comment.where(user_id: current_user[:id]).ids
+     
+    #@ids=Author.where(user_id: current_user[:id]).ids
+    end
+  @comments = Comment.where(id:@ids)
   end
 
   # GET /comments/1
@@ -24,10 +32,11 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
+    
     @comment = Comment.new(comment_params)
-
+    #@author = Author.new(comment_id: comment_params[:id], user_id: comment_params[:user_id])
     respond_to do |format|
-      if @comment.save
+      if @comment.save#&&@author.save
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
@@ -69,6 +78,7 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:title, :body)
+      params.require(:comment).permit(:title, :body,:music_id, :user_id)
     end
+    
 end
