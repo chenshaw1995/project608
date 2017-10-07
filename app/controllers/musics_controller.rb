@@ -1,8 +1,9 @@
 class MusicsController < ApplicationController
-  before_action :set_music, only: [:show, :edit, :update, :destroy]
+  before_action :set_music, only: [:show, :edit]#, :update, :destroy]
 
   # GET /musics
   # GET /musics.json
+  public
   def index
     @musics = Music.all
     #@user_id=session[:user_id]
@@ -14,6 +15,9 @@ class MusicsController < ApplicationController
     @music = Music.find(params[:id])
   end
 
+  def byuserid
+ #@musics=Music.find_by_(session[:user_id])
+  end
   # GET /musics/new
   def new
     @music = Music.new
@@ -56,6 +60,7 @@ class MusicsController < ApplicationController
   # DELETE /musics/1
   # DELETE /musics/1.json
   def destroy
+    #
     @music.destroy
     respond_to do |format|
       format.html { redirect_to musics_url, notice: 'Music was successfully destroyed.' }
@@ -66,6 +71,7 @@ class MusicsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_music
+      
       @music = Music.find(params[:id])
     end
 
