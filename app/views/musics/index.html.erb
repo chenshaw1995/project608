@@ -8,29 +8,39 @@
   <body>
     <p id="notice"><%= notice %></p>
     <h1>Musics</h1>
-    
-<%= will_paginate %>
+    <%= form_tag musics_path, :method=>'get' do%>
+ 
+    musicname<%= check_box_tag 'name_select', true,checking=params[:name_select] %>
+    <%#artist= check_box_tag 'artist_select', true %>
+  has_comment?<%= check_box_tag "has_comment",true,checking=params[:has_comment] %>
+  <%= submit_tag "search"  %>
+  <% end %>
+   
+<%= will_paginate if @s=="" %>
 
     <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Artist</th>
+      <th><%#="Name" if m.has_attribute?(:name)%></th>
+      <th><%#="Artist" if m.has_attribute?(:artist) %></th>
+      <th><%#="Title" if m.has_attribute?(:title) %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @musics.each do |music| %>
+    <% @musics.each do |m| %>
  
       <tr>
-        <td><%= music.name %></td>
-        <td><%= music.artist %></td>
-        <td><%= link_to 'Show', music %></td>
+        <td><%#= m.id %></td>
+        <td><%= m.name if m.has_attribute?(:name)%></td>
+        <td><%= m.artist if m.has_attribute?(:artist) %></td>
+        <td><%= "'"+m.title+"'" if m.has_attribute?(:title) %></td>
         
-        <td><%= link_to "like",controller:'likes', action:'new', id:music.id%></td>
+        <td><%= link_to 'Show', music_path(m.id) %></td>
         
-        <td><%= link_to "More about #{music.name}", comments_path, id:music.id%></td>
+        <td><%= link_to "like",controller:'likes', action:'new'%></td>
+        
       </tr>
      
     <% end %>
@@ -39,10 +49,10 @@
   
 </table>
 
-<%= will_paginate %>
+<%= will_paginate if @s=="" %>
 <br>
 
-<%#= link_to 'New Music', new_music_path %>
+<%= link_to 'New Music', new_music_path %>
 <div>
   </body>
 </html>

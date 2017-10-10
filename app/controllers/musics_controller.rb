@@ -1,17 +1,40 @@
 class MusicsController < ApplicationController
   include SessionsHelper
-  before_action :set_music, only: [:show, :edit]#, :update, :destroy]
-
+  before_action :set_music, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in?, only: [:show, :edit, :update, :destroy]
+  
   # GET /musics
   # GET /musics.json
   public
   def index
-    
-if(params[:like])
- @like= Like.new(music_id:params[:like], user_id:current_user[:id])
+  #@select=params[:select] if params[:select]!=nil
+  #@condition=params[:condition] if params[:condition]!=nil
+  #if @select!=nil&&@condtion!=nil
+  #  @musics =Music.where(@condition).select(@select)
+  #end
+  if(params[:like])
+  @like= Like.new(music_id:params[:like], user_id:current_user[:id])
   redirect_to like_path(@like)
-end
-    @musics = Music.paginate(page: params[:page])
+  end
+  @s=""
+  if params[:name_select]
+    @s+=", musics.name "
+  end
+  if params[:has_comment]
+    @s+=", comments.title "
+  end
+  if @s==""
+    ##params[:name_select]=true
+    #params[:has_comment]=true
+   # @s=", musics.name, comments.title "
+   @musics=Music.paginate(page: params[:page])
+  else
+    @musics=Music.find_by_sql(" SELECT musics.id "+@s+",musics.artist FROM musics JOIN comments ON musics.id = comments.music_id")
+  end
+ # @commented_musics=Music.find_by_sql(" SELECT musics.id "+@s+",musics.artist FROM musics JOIN comments ON musics.id = comments.music_id")
+ 
+ 
+  #@musics = 
 
     #@musics = Music.all
     #@user_id=session[:user_id]
@@ -68,18 +91,15 @@ end
   # DELETE /musics/1
   # DELETE /musics/1.json
   def destroy
-    #
     @music.destroy
-    respond_to do |format|
-      format.html { redirect_to musics_url, notice: 'Music was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:notice]= 'Music was successfully destroyed.'
+    redirect_to musics_path
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_music
-      
       @music = Music.find(params[:id])
     end
 

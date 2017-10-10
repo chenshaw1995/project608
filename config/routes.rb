@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  #get '/destroy', to: 'musics#destroy'
+  
+  #delete 'musics/destroy'
+  
   get '/like', to: 'likes#new'
   post '/like', to: 'likes#create'
   

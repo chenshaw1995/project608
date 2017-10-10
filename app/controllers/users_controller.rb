@@ -11,7 +11,25 @@ public
   # GET /users
   # GET /users.json
   def index
-     @users = User.paginate(page: params[:page])
+   # params
+   @s=" id "
+   if params[:name_select]=="name" then
+    @s+=", name"
+   end
+   if params[:email_select]=="email" then
+    @s+=", email"
+   end
+   if params[:age_select]=="age" then
+     @s+=", age"
+   end
+  if  @s==" id " then
+    @s="*"
+  end
+    @users = User.find_by_sql(" SELECT "+@s+" FROM users")# WHERE id='1'")#.select("#{params[:id_select]}")
+  #else
+    #@users =User.select("*")
+  #e#nd
+    # @users = User.paginate(page: params[:page])
    #@users = User.all
   end
 

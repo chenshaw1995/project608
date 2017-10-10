@@ -10,5 +10,9 @@
   <%= @music.artist %>
 </p>
 <%=link_to 'comments', new_comment_path%>|
+
+<%= link_to 'destroy', music_path(@music), :method => :delete%>|
+   
+<%#= button_to 'Delete', music_path(@music), :method => :delete, :confirm => 'Are you sure?'%>
 <%= link_to 'Edit', edit_music_path(@music) %> |
 <%= link_to 'Back', musics_path %>

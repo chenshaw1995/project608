@@ -15,8 +15,9 @@ public
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.where(user_id: current_user[:id])#.ids#.all#find_by ##
     
+    #@likes = Like.where(user_id: current_user[:id])#.ids#.all#find_by ##
+    @like_musics= Music.joins(:likes).where(likes:{user_id: current_user[:id]})
   end
 
   # GET /likes/1
