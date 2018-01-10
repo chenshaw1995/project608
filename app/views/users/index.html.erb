@@ -13,8 +13,8 @@
 <%#= link_to "id_select", action:'index', id_select:1%>
 <%#= submit_tag "search"%>
 <%#= will_paginate %>
- 
-  <%= form_tag users_path, :method=>'get' do%>
+ <div class="choices">
+   <%= form_tag users_path, :method=>'get' do%>
  
     name<%= check_box_tag 'name_select', "name" %>
   email<%= check_box_tag "email_select","email"  %>
@@ -22,6 +22,8 @@
   <%= submit_tag "search"  %>
   
   <% end %>
+ </div>
+  
 
 <ul class="users">
   <% @users.each do |user| %>

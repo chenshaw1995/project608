@@ -1,6 +1,21 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+// custom
+.jumbotron {
+  // width: 60%;
+  height: 100%;
+  color:  #665a56;
+  padding-left: 10%;
+  background: url(https://carleton.ca/music/wp-content/uploads/Piano-keys-banner.jpg);
+  opacity: 0.5; 
+}
+
+.choices {
+  width: 40%;
+  margin-left: 0;
+}
+
 /* mixins, variables, etc. */
 
 $gray-medium-light: #eaeaea;
@@ -16,6 +31,10 @@ $gray-medium-light: #eaeaea;
 
 body {
   padding-top: 60px;
+  // background-color: #c96e24;
+  background: url(https://carleton.ca/music/wp-content/uploads/Piano-keys-banner.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 section {

@@ -9,15 +9,15 @@ private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def like_params
-      params.require(:like).permit(:music_id, :user_id)
+       params.permit(:user_id, :product_id)
     end
 public
   # GET /likes
   # GET /likes.json
   def index
-    
+    @like_musics = Like.where(user_id: current_user[:id])
     #@likes = Like.where(user_id: current_user[:id])#.ids#.all#find_by ##
-    @like_musics= Music.joins(:likes).where(likes:{user_id: current_user[:id]})
+    # @like_musics= Music.joins(:likes).where(likes:{user_id: current_user[:id]})
   end
 
   # GET /likes/1
@@ -42,12 +42,13 @@ public
   # POST /likes.json
   def create
   
-    @like = Like.new(like_params)
-      if @like.save
+    # @like = Like.create(like_params)
+      if Like.create(like_params)
         flash[:notice] = "Like was successfully created"
-        redirect_to current_user
+        redirect_to musics_path
       else
-        render :index
+        flash[:notice] = "error happened, please try again"
+        redirect_to musics_path
       end
 
   end

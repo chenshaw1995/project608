@@ -8,13 +8,15 @@
   <body>
     <p id="notice"><%= notice %></p>
     <h1>Musics</h1>
-    <%= form_tag musics_path, :method=>'get' do%>
- 
-    musicname<%= check_box_tag 'name_select', true,checking=params[:name_select] %>
-    <%#artist= check_box_tag 'artist_select', true %>
-  has_comment?<%= check_box_tag "has_comment",true,checking=params[:has_comment] %>
-  <%= submit_tag "search"  %>
-  <% end %>
+    <div class = "choices">
+      <%= form_tag musics_path, :method=>'get' do%>
+      <%= label_tag(:name_select, "music") %>
+          <%=check_box_tag 'name_select', true,checking=params[:name_select] %>
+      <%= label_tag(:has_comment, "comment") %>  
+          <%= check_box_tag "has_comment",true,checking=params[:has_comment] %>
+      <%= submit_tag "search"  %>
+      <% end %>
+    </div>
    
 <%= will_paginate if @s=="" %>
 
@@ -36,10 +38,8 @@
         <td><%= m.name if m.has_attribute?(:name)%></td>
         <td><%= m.artist if m.has_attribute?(:artist) %></td>
         <td><%= "'"+m.title+"'" if m.has_attribute?(:title) %></td>
-        
         <td><%= link_to 'Show', music_path(m.id) %></td>
-        
-        <td><%= link_to "like",controller:'likes', action:'new'%></td>
+        <td><%= link_to "like", likes_path(music_id:m.id, user_id:current_user[:id]), method: :post%></td>
         
       </tr>
      

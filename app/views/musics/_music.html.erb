@@ -1,8 +1,0 @@
-<li>
-        <%= music.name %>
-        <%= music.artist %>
-        <%= link_to 'Show', music %>
-        <%= link_to "like", controller:'likes', action:'new', musicid:music.id, personid:current_user%>
-        <%= link_to "comments", controller:'comments', action:'new'%>
-</li>
-    
