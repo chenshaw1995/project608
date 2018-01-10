@@ -12,16 +12,16 @@
   </thead>
 
   <tbody>
-    <% if @like_musics.nil? then %>
+    <% if @musics.nil? then %>
      <%= "null" %>
     <%else%>
-    <% @like_musics.each do |m| %>
+    <% @musics.each do |m| %>
       <tr>
-        <td><%= m.name %></td>
-        <td><%= m.artist %></td>
-        <td><%#= link_to 'Show', music_path(like.music_id) %></td>
-        <td><%#= link_to 'Edit', edit_like_path(like) %></td>
-        <td><%= link_to 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!--<td><%#= Music.find(m.music_id). %></td>-->
+        <!--<td><%#= m.artist %></td>-->
+        <td><%= m.music_id %></td>
+        <td><%= m.user_id %></td>
+        <td><%#= link_to 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
     <% end %>

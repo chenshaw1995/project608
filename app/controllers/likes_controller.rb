@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
   include SessionsHelper
-  before_action :set_like, only: [:edit, :update, :destroy]
+  before_action :set_like, only: [:destroy]
 private
     # Use callbacks to share common setup or constraints between actions.
     def set_like
@@ -9,13 +9,19 @@ private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def like_params
-       params.permit(:user_id, :product_id)
+       params.permit(:user_id, :music_id)
     end
 public
   # GET /likes
   # GET /likes.json
   def index
-    @like_musics = Like.where(user_id: current_user[:id])
+    #@like_musics = Like
+    #@likes
+    @musics = Like.where(user_id: current_user[:id])
+    #@user = User.find(current_user[:id])# current_user[:id]
+    # @musics = Music.where( @likes }
+    #@musics = Music.likes.where("user_id = ?", current_user[:id])#.where("id = ?", @like_musics)
+    #where("orders_count = ?", params[:orders]
     #@likes = Like.where(user_id: current_user[:id])#.ids#.all#find_by ##
     # @like_musics= Music.joins(:likes).where(likes:{user_id: current_user[:id]})
   end
@@ -42,10 +48,9 @@ public
   # POST /likes.json
   def create
   
-    # @like = Like.create(like_params)
       if Like.create(like_params)
         flash[:notice] = "Like was successfully created"
-        redirect_to musics_path
+        redirect_to likes_path
       else
         flash[:notice] = "error happened, please try again"
         redirect_to musics_path
